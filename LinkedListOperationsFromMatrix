@@ -1,0 +1,90 @@
+public class Solution {
+    ListNode head;
+
+    public ListNode solve(int[][] A) {
+        for (int i = 0; i < A.length; i++) {
+            switch (A[i][0]) {
+                case 0:
+                    insertANodeAtSomePoint(A[i][1], 1);
+                    break;
+                case 1:
+                    insertAtLast(A[i][1]);
+                    break;
+                case 2:
+                    insertANodeAtSomePoint(A[i][1], A[i][2] + 1);
+                    break;
+                case 3:
+                    deleteNodeAtSomePoint(A[i][1] + 1);
+                    break;
+            }
+        }
+        return head;
+    }
+
+    public void insertANodeAtSomePoint(int insertData, int position) {
+        if (head == null) {
+            head = new ListNode(insertData);
+            return;
+        }
+        int count = 1;
+        ListNode temp = head;
+        if (position == 1) {
+            ListNode newNode = new ListNode(insertData);
+
+            newNode.next = head;
+            head = newNode;
+            return;
+        }
+        while (count < position - 1 && temp.next != null) {
+            temp = temp.next;
+            count++;
+        }
+        ListNode newNode = new ListNode(insertData);
+        newNode.next = temp.next;
+        temp.next = newNode;
+    }
+
+    public void deleteNodeAtSomePoint(int position) {
+        int count = 1;
+        ListNode temp = head;
+        if (head == null) {
+            return;
+        }
+        if (position == 1) {
+            head = head.next;
+            return;
+        }
+        while (count < position - 1) {
+            if (temp.next.next == null) {
+                return;
+            }
+            temp = temp.next;
+            count++;
+        }
+        temp.next = temp.next.next;
+    }
+
+    public void insertAtLast(int insertData) {
+        if (head == null) {
+            head = new ListNode(insertData);
+            return;
+        }
+        ListNode temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        ListNode newNode = new ListNode(insertData);
+        temp.next = newNode;
+    }
+}
+
+
+class ListNode {
+    public int val;
+    public ListNode next;
+
+    ListNode(int x) {
+        val = x;
+        next = null;
+    }
+}
